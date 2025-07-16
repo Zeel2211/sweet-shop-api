@@ -19,20 +19,25 @@ def add_sweet_api():
     except Exception as e:
         return jsonify({"error": str(e)}),500
     
-@app.route('/sweets',methods=['GET'])
+@app.route('/sweets', methods=['GET'])
 def get_sweet_api():
     try:
-        sweets=get_sweets()
+        name = request.args.get("name")
+        category = request.args.get("category")
+
+        sweets = get_sweets(name, category)
         sweet_list = [{
-            "id":row[0],
-            "name":row[1],
-            "category":row[2],
-            "price":row[3],
-            "quantity":row[4]
+            "id": row[0],
+            "name": row[1],
+            "category": row[2],
+            "price": row[3],
+            "quantity": row[4]
         } for row in sweets]
-        return jsonify(sweet_list),200
+
+        return jsonify(sweet_list), 200
     except Exception as e:
-        return jsonify({"error":str(e)}),500
+        return jsonify({"error": str(e)}), 500
+
                 
 @app.route('/sweets/<int:sweet_id>',methods=['DELETE'])
 def delete_sweet_api(sweet_id):
