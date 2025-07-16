@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from model import add_sweet,get_sweets,delete_sweet
+from model import add_sweet,get_sweets,delete_sweet,update_sweet
 
 app = Flask(__name__)
 
@@ -41,6 +41,25 @@ def delete_sweet_api(sweet_id):
         if deleted_rows == 0:
             return jsonify({"error":"sweet not found"}),400
         return jsonify({"message":"sweet deleted"}),200
+    except Exception as err:
+        return jsonify({"error":str(err)}),500
+
+@app.route('/sweets/<int:sweet_id>',methods=['PUT'])
+def update_sweet_api(sweet_id):
+    data = request.json
+    if not all(k in data for k in ('name','category','price','quantity')):
+        return jsonify({"error":"Data Missing"}),400
+    try:
+        updated_sweet = update_sweet(
+            sweet_id=sweet_id,
+            name=data["name"],
+            category=data["category"],
+            price=data["price"],
+            quantity=data["quantity"]
+        )
+        if updated_sweet == 0:
+            return jsonify({"error":"sweet not found"}),404
+        return jsonify({"message":"sweet updated"}),200
     except Exception as err:
         return jsonify({"error":str(err)}),500
 
