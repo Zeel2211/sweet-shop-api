@@ -21,7 +21,5 @@ class TestSweetShop(unittest.TestCase):
         except Exception as e:
             self.fail(f"Database connection failed: {e}")
 
-    
-
 if __name__ == '__main__':
     unittest.main()

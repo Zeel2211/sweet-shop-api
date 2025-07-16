@@ -1,2 +1,9 @@
+import psycopg2
 def get_connection():
-    raise NotImplementedError("Database connection not implemented yet")
+    
+    return psycopg2.connect(
+        host="localhost",
+        database="sweets",
+        user="zeel",
+        password="2121"
+    )
