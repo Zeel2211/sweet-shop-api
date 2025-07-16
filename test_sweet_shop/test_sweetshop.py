@@ -33,5 +33,11 @@ class TestSweetShop(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertIn("Sweet added", response.get_data(as_text=True))
         
+    def test_get_sweets(self):
+        response = self.client.get("/sweets")
+        self.assertEqual(response.status_code , 200)
+        sweets = response.get_json()
+        self.assertEqual(sweets,list)
+        
 if __name__ == '__main__':
     unittest.main()
