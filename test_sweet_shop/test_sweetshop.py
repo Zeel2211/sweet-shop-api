@@ -2,8 +2,7 @@ import unittest
 import json
 import sys
 import os
-
-from sympy import true
+from urllib import response
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -72,6 +71,17 @@ class TestSweetShop(unittest.TestCase):
         update_response = self.client.put(f'/sweets/{sweet_id}',data=json.dumps(updated_data),content_type='application/json')
         self.assertEqual(update_response.status_code,200)
         self.assertIn("sweet updated",update_response.get_data(as_text=True))
-        
+
+    def test_search_sweet(self):
+        self.client.post('/sweets',json={
+            "name":"Barfi",
+            "category":"Milk-Based",
+            "price":15,
+            "quantity":10
+        })
+        response = self.client.get('/sweets?name=Barfi')
+        self.assertEqual(response.status_code,200)
+        sweets = response.get_json()
+        self.assertTrue(any(sweet['name']=="Barfi" for sweet in sweets))
 if __name__ == '__main__':
     unittest.main()
