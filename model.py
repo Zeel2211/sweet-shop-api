@@ -19,3 +19,12 @@ def add_sweet(name, category, price, quantity):
     cur.close()
     conn.close()
     return sweet_id
+
+def get_sweets():
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM sweets;")
+    sweets = cur.fetchall()
+    cur.close()
+    conn.close()
+    return sweets
