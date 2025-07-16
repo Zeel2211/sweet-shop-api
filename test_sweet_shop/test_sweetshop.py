@@ -3,6 +3,8 @@ import json
 import sys
 import os
 
+from sympy import true
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app import app
@@ -28,8 +30,7 @@ class TestSweetShop(unittest.TestCase):
             "price": 20,
             "quantity": 50
         }
-        response = self.client.post('/sweets', data=json.dumps(data),
-                                    content_type='application/json')
+        response = self.client.post('/sweets', data=json.dumps(data),content_type='application/json')
         self.assertEqual(response.status_code, 201)
         self.assertIn("Sweet added", response.get_data(as_text=True))
         
@@ -51,6 +52,26 @@ class TestSweetShop(unittest.TestCase):
         delete_response = self.client.delete(f"/sweets/{sweet_id}")
         self.assertEqual(delete_response.status_code,200)
         self.assertIn("sweet deleted",delete_response.get_data(as_text=True))
+    
+    def test_update_sweet(self):
+        data = {
+            "name":"test sweet",
+            "category":"test category",
+            "price":10,
+            "quantity":12
+        }
+        post_response = self.client.post('/sweets',data=json.dumps(data),content_type='application/json')
+        sweet_id=post_response.get_json()["id"]
+
+        updated_data={
+            "name":"updated sweet",
+            "category":"updated category",
+            "price":30,
+            "quantity":5
+        }
+        update_response = self.client.put(f'/sweets/{sweet_id}',data=json.dumps(updated_data),content_type='application/json')
+        self.assertEqual(update_response.status_code,200)
+        self.assertIn("sweet updated",update_response.get_data(as_text=True))
         
 if __name__ == '__main__':
     unittest.main()
