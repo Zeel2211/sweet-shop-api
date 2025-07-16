@@ -48,7 +48,7 @@ class TestSweetShop(unittest.TestCase):
         }
         post_response = self.client.post('/sweets',data=json.dumps(data), content_type='application/json')
         sweet_id = post_response.get_json()["id"]
-        delete_response = self.client.delete("/sweet/{sweet_id}")
+        delete_response = self.client.delete(f"/sweets/{sweet_id}")
         self.assertEqual(delete_response.status_code,200)
         self.assertIn("sweet deleted",delete_response.get_data(as_text=True))
         

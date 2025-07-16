@@ -28,3 +28,13 @@ def get_sweets():
     cur.close()
     conn.close()
     return sweets
+
+def delete_sweet(sweet_id):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM sweets WHERE id = %s;",(sweet_id,))
+    deleted = cur.rowcount
+    conn.commit()
+    cur.close()
+    conn.close()
+    return deleted
