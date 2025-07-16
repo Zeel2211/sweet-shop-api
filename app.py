@@ -24,8 +24,10 @@ def get_sweet_api():
     try:
         name = request.args.get("name")
         category = request.args.get("category")
+        sort_by = request.args.get("sort_by")
+        order = request.args.get("order", "asc")
 
-        sweets = get_sweets(name, category)
+        sweets = get_sweets(name, category, sort_by, order)
         sweet_list = [{
             "id": row[0],
             "name": row[1],
@@ -37,6 +39,7 @@ def get_sweet_api():
         return jsonify(sweet_list), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
                 
 @app.route('/sweets/<int:sweet_id>',methods=['DELETE'])

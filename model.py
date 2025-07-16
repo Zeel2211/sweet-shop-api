@@ -21,29 +21,35 @@ def add_sweet(name, category, price, quantity):
     conn.close()
     return sweet_id
 
-def get_sweets(name=None, category=None):
+def get_sweets(name=None, category=None, sort_by=None, order='asc'):
     conn = get_connection()
     cur = conn.cursor()
 
     query = "SELECT * FROM sweets"
     params = []
+    conditions = []
 
-    if name or category:
-        query += " WHERE"
-        if name:
-            query += " name ILIKE %s"
-            params.append(f"%{name}%")
-        if category:
-            if name:
-                query += " AND"
-            query += " category ILIKE %s"
-            params.append(f"%{category}%")
+    if name:
+        conditions.append("name ILIKE %s")
+        params.append(f"%{name}%")
+    if category:
+        conditions.append("category ILIKE %s")
+        params.append(f"%{category}%")
+
+    if conditions:
+        query += " WHERE " + " AND ".join(conditions)
+
+    allowed_sort_fields = ['price', 'quantity', 'name']
+    if sort_by in allowed_sort_fields:
+        sort_order = 'DESC' if order == 'desc' else 'ASC'
+        query += f" ORDER BY {sort_by} {sort_order}"
 
     cur.execute(query, tuple(params))
     sweets = cur.fetchall()
     cur.close()
     conn.close()
     return sweets
+
 
 
 def delete_sweet(sweet_id):

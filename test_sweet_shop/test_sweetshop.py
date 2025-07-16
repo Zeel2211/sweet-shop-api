@@ -83,5 +83,26 @@ class TestSweetShop(unittest.TestCase):
         self.assertEqual(response.status_code,200)
         sweets = response.get_json()
         self.assertTrue(any(sweet['name']=="Barfi" for sweet in sweets))
+
+    def test_sort_sweets_by_price(self):
+        self.client.post('/sweets',json={
+            "name":"sweet a",
+            "category":"test",
+            "price":50,
+            "quantity":10
+        })
+        self.client.post('/sweets',json={
+            "name":"sweet b",
+            "category":"test",
+            "price":30,
+            "quantity":10
+        })
+
+        response=self.client.get('/sweets?sort_by=price&order=asc')
+        self.assertEqual(response.status_code,200)
+        data=response.get_json()
+        self.assertGreaterEqual(data[1]['price'],data[0]['price'])
+
+
 if __name__ == '__main__':
     unittest.main()
