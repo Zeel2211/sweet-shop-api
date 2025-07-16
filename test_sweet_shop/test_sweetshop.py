@@ -39,5 +39,18 @@ class TestSweetShop(unittest.TestCase):
         sweets = response.get_json()
         self.assertIsInstance(sweets,list)
         
+    def test_delete_sweet(self):
+        data = {
+            "name":"test sweet",
+            "category":"test category",
+            "price":10,
+            "quantity":12
+        }
+        post_response = self.client.post('/sweets',data=json.dumps(data), content_type='application/json')
+        sweet_id = post_response.get_json()["id"]
+        delete_response = self.client.delete("/sweet/{sweet_id}")
+        self.assertEqual(delete_response.status_code,200)
+        self.assertIn("sweet deleted",delete_response.get_data(as_text=True))
+        
 if __name__ == '__main__':
     unittest.main()
