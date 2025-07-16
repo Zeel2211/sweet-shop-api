@@ -130,7 +130,7 @@ class TestSweetShop(unittest.TestCase):
             "quantity": 10
         })
         self.assertEqual(restock_detail.status_code,200)
-        self.assertIn("restocked successful")
+        self.assertIn("restocked successful",restock_detail.get_data(as_text=True))
 
 if __name__ == '__main__':
     unittest.main()

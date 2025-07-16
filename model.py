@@ -90,11 +90,30 @@ def purchase_sweet(sweet_id, quantity):
         conn.close()
         return {"error": "Insufficient stock"}, 400
 
-    cur.execute(
-        "UPDATE sweets SET quantity = quantity - %s WHERE id = %s",
-        (quantity, sweet_id)
-    )
+    cur.execute("UPDATE sweets SET quantity = quantity - %s WHERE id = %s",(quantity, sweet_id))
     conn.commit()
     cur.close()
     conn.close()
     return {"message": "purchase successful"}, 200
+
+def restock_sweet(sweet_id, quantity):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id FROM sweets WHERE id = %s", (sweet_id,))
+    result = cur.fetchone()
+
+    if not result:
+        cur.close()
+        conn.close()
+        return {"error": "Sweet not found"}, 404
+
+    cur.execute(
+        "UPDATE sweets SET quantity = quantity + %s WHERE id = %s",
+        (quantity, sweet_id)
+    )
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return {"message": "restocked successfully"}, 200
