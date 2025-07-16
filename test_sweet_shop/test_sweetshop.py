@@ -104,5 +104,19 @@ class TestSweetShop(unittest.TestCase):
         self.assertGreaterEqual(data[1]['price'],data[0]['price'])
 
 
+    def test_purchase_sweet(self):
+        test_sweet = self.client.post('/sweets',json={
+            "name":"ladoo",
+            "category":"Desi",
+            "price":"50",
+            "quantity":30
+        })
+        sweet_id=test_sweet.get_json()['id']
+        purchase_detail = self.client.post(f"/sweets/{sweet_id}/purchase",json={
+            "quantity":15
+        })
+        self.assertEqual(purchase_detail.status_code,200)
+        self.assertIn("Purchase Successfully",purchase_detail.get_data(as_text=True))
+
 if __name__ == '__main__':
     unittest.main()
