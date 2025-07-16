@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from model import add_sweet,get_sweets,delete_sweet,update_sweet
+from model import add_sweet,get_sweets,delete_sweet,update_sweet,purchase_sweet
 
 app = Flask(__name__)
 
@@ -70,6 +70,16 @@ def update_sweet_api(sweet_id):
         return jsonify({"message":"sweet updated"}),200
     except Exception as err:
         return jsonify({"error":str(err)}),500
+
+@app.route('/sweets/<int:sweet_id>/purchase', methods=['POST'])
+def purchase_sweet_api(sweet_id):
+    data = request.json
+    if 'quantity' not in data:
+        return jsonify({"error": "Quantity required"}), 400
+
+    result, status = purchase_sweet(sweet_id, data['quantity'])
+    return jsonify(result), status
+
 
 if __name__ == '__main__':
     app.run(debug=True)

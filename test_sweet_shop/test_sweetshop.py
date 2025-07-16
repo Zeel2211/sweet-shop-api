@@ -116,7 +116,7 @@ class TestSweetShop(unittest.TestCase):
             "quantity":15
         })
         self.assertEqual(purchase_detail.status_code,200)
-        self.assertIn("Purchase Successfully",purchase_detail.get_data(as_text=True))
+        self.assertIn("purchase successful",purchase_detail.get_data(as_text=True))
 
 if __name__ == '__main__':
     unittest.main()
