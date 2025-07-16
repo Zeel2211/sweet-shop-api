@@ -118,5 +118,19 @@ class TestSweetShop(unittest.TestCase):
         self.assertEqual(purchase_detail.status_code,200)
         self.assertIn("purchase successful",purchase_detail.get_data(as_text=True))
 
+    def test_restock_sweet(self):
+        test_sweet = self.client.post("/sweets",json={
+            "name":"ladoo",
+            "category":"Desi",
+            "price":"50",
+            "quantity":5
+        })
+        sweet_id = test_sweet.get_json()['id']
+        restock_detail = self.client.post(f"/sweets/{sweet_id}/restock",json={
+            "quantity": 10
+        })
+        self.assertEqual(restock_detail.status_code,200)
+        self.assertIn("restocked successful")
+
 if __name__ == '__main__':
     unittest.main()
