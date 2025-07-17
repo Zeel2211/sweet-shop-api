@@ -1,0 +1,31 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+  <h1 class="text-3xl font-bold text-[#741015] mb-6">Sweet Inventory</h1>
+
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border-collapse border border-gray-300 shadow-md">
+      <thead class="bg-[#E79304] text-center text-white">
+        <tr>
+          <th class="p-3 border">ID</th>
+          <th class="p-3 border">Name</th>
+          <th class="p-3 border">Category</th>
+          <th class="p-3 border">Price</th>
+          <th class="p-3 border">Quantity</th>
+          <th class="p-3 border">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="text-center">
+        <tr *ngFor="let sweet of sweets" class="bg-white hover:bg-gray-100">
+          <td class="p-3 border">{{ sweet.id }}</td>
+          <td class="p-3 border">{{ sweet.name }}</td>
+          <td class="p-3 border">{{ sweet.category }}</td>
+          <td class="p-3 border">{{ sweet.price }}</td>
+          <td class="p-3 border">{{ sweet.quantity }}</td>
+          <td class="p-3 border space-x-2">
+            <button name= "edit" [routerLink]="['/admin/editSweet',sweet.id]" class="bg-[#741015] text-white px-3 py-1 rounded hover:bg-[#5d0d11]">Edit</button>
+            <button name="delete" (click)="deleteSweet(sweet.id)" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

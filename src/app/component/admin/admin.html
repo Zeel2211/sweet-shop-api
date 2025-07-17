@@ -1,0 +1,10 @@
+<nav class="bg-[#741015] text-white px-6 py-3 shadow-md flex justify-between items-center">
+  <div class="text-xl font-bold">🍬 SweetShop Admin</div>
+  <ul class="flex space-x-6">
+    <li><a [routerLink]="['/admin/dashboard']" class="hover:text-[#E79304] transition-colors">Dashboard</a></li>
+    <li><a [routerLink]="['/admin/addSweet']" class="hover:text-[#E79304] transition-colors">Add Sweet</a></li>
+    <li><a [routerLink]="['/admin/manageStock']"  class="hover:text-[#E79304] transition-colors">Manage Stock</a></li>
+    <li><a [routerLink]="['']" class="hover:text-[#E79304] transition-colors">Logout</a></li>
+  </ul>
+</nav>
+<router-outlet></router-outlet>

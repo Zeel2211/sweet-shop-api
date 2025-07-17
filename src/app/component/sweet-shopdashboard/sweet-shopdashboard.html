@@ -1,0 +1,16 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+  <h1 class="text-3xl font-bold text-center text-[#741015] mb-6">🍭 Welcome to the Sweet Shop!</h1>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div *ngFor="let sweet of sweets" class="bg-white p-4 rounded-lg shadow-md text-center">
+      <h2 class="text-xl font-semibold text-[#741015] mb-2">{{ sweet.name }}</h2>
+      <p class="text-gray-700"><strong>Category:</strong> {{ sweet.category }}</p>
+      <p class="text-gray-700"><strong>Price:</strong> ₹{{ sweet.price }}</p>
+      <p class="text-gray-700"><strong>Available:</strong> {{ sweet.quantity }}</p>
+
+      <button (click)="viewDetails(sweet)" class="mt-4 bg-[#E79304] text-white px-4 py-2 rounded hover:bg-[#d47f01] transition">
+        More Details
+      </button>
+    </div>
+  </div>
+</div>
